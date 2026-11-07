@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
 
 export default function Home() {
-    redirect('/admin')
+    redirect(process.env.APP_MODE === 'chains' ? '/chains' : '/admin')
 }

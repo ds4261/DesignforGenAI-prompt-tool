@@ -8,7 +8,7 @@ export async function GET(request: Request) {
     if (code) {
         const supabase = await createClient()
         const { error } = await supabase.auth.exchangeCodeForSession(code)
-        if (!error) return NextResponse.redirect(`${origin}/admin`)
+        if (!error) return NextResponse.redirect(`${origin}${process.env.APP_MODE === 'chains' ? '/chains' : '/admin'}`)
     }
     return NextResponse.redirect(`${origin}/login?error=auth`)
 }

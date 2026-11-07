@@ -1,0 +1,38 @@
+.chain-studio { --cs-bg: #f5f4ef; --cs-panel: #fffefa; --cs-text: #243e36; --cs-muted: #62746b; --cs-line: #d6ddd5; --cs-accent: #28634b; --cs-button: #fff; background: var(--cs-bg); color: var(--cs-text); min-height: 100vh; padding: 32px clamp(16px, 3vw, 48px) 80px; }
+html[data-chain-theme="dark"] .chain-studio { --cs-bg: #13251f; --cs-panel: #1c3028; --cs-text: #eef3e9; --cs-muted: #afc0b5; --cs-line: #3c5147; --cs-accent: #add5a8; --cs-button: #173225; color-scheme: dark; }
+@media (prefers-color-scheme: dark) { html[data-chain-theme="system"] .chain-studio { --cs-bg: #13251f; --cs-panel: #1c3028; --cs-text: #eef3e9; --cs-muted: #afc0b5; --cs-line: #3c5147; --cs-accent: #add5a8; --cs-button: #173225; color-scheme: dark; } }
+html[data-chain-theme="light"] .chain-studio { color-scheme: light; }
+.chain-studio h1 { font-size: clamp(28px, 3vw, 42px); font-weight: 650; letter-spacing: -1.6px; }
+.chain-studio h2 { font-size: 20px; font-weight: 650; margin-bottom: 12px; }
+.chain-studio h3 { font-size: 17px; font-weight: 600; }
+.chain-studio p { line-height: 1.6; }
+.chain-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; border-bottom: 1px solid var(--cs-line); padding-bottom: 28px; margin-bottom: 28px; }
+.chain-eyebrow { font-size: 10px; letter-spacing: 2px; color: var(--cs-muted); font-weight: 700; margin-bottom: 8px; }
+.chain-toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: 18px; font-size: 13px; }
+.chain-workspace { display: grid; grid-template-columns: 230px minmax(300px, 1.25fr) minmax(280px, 1fr); gap: 24px; max-width: 1600px; margin: auto; align-items: start; }
+.chain-panel { background: var(--cs-panel); border: 1px solid var(--cs-line); border-radius: 16px; padding: 22px; margin-bottom: 20px; min-width: 0; overflow-wrap: anywhere; }
+.chain-studio label { display: grid; gap: 6px; font-size: 12px; font-weight: 650; margin: 14px 0; }
+.chain-studio input:not([type="hidden"]), .chain-studio select, .chain-studio textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--cs-line); border-radius: 8px; background: var(--cs-bg); color: var(--cs-text); font: inherit; font-size: 14px; font-weight: 400; }
+.chain-studio textarea { resize: vertical; }
+.chain-studio button { background: var(--cs-accent); color: var(--cs-button); border-radius: 8px; padding: 9px 14px; font-size: 12px; font-weight: 650; }
+.chain-studio button:disabled { opacity: .45; cursor: default; }
+.chain-studio a { text-underline-offset: 4px; }
+.chain-studio a:hover { text-decoration: underline; }
+.chain-studio summary { cursor: pointer; font-size: 13px; font-weight: 650; padding: 10px 0; }
+.chain-link { display: flex; justify-content: space-between; gap: 12px; padding: 12px 10px; border-radius: 8px; font-size: 13px; margin: 4px 0; }
+.chain-link[aria-current="page"] { background: var(--cs-accent); color: var(--cs-button); }
+.chain-section-title { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 8px 0; }
+.chain-section-title h2 { margin: 0; }
+.chain-section-title time { font-size: 10px; color: var(--cs-muted); }
+.chain-section-title > span, .chain-hint { color: var(--cs-muted); font-size: 12px; margin: 10px 0 16px; }
+.chain-step-tools { display: flex; gap: 6px; }
+.chain-step-tools button { padding: 6px 10px; }
+.chain-step-tools .chain-feedback { margin: 0; }
+.chain-number { display: inline-grid; place-items: center; background: var(--cs-bg); border: 1px solid var(--cs-line); width: 30px; height: 30px; border-radius: 50%; margin-right: 6px; }
+.chain-feedback { font-size: 12px; margin: 10px 0; }
+.chain-feedback [role="alert"], .chain-danger { color: #bf604b; }
+.chain-output { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 13px; margin: 14px 0; }
+.chain-status { text-transform: uppercase; letter-spacing: 1px; font-size: 10px; }
+.chain-results, .chain-main { min-width: 0; }
+@media (max-width: 1150px) { .chain-workspace { grid-template-columns: 200px minmax(0, 1fr); } .chain-results { grid-column: 2; } }
+@media (max-width: 700px) { .chain-workspace { grid-template-columns: minmax(0, 1fr); } .chain-results { grid-column: auto; } .chain-header { align-items: start; } }
