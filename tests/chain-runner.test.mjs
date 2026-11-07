@@ -8,8 +8,16 @@ const exports = {}
 vm.runInNewContext(ts.transpileModule(fs.readFileSync('utils/chains/runner.ts', 'utf8'), {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
 }).outputText, { exports })
-const { executeChain, stepPrompt, responseText } = exports
+const { executeChain, geminiModelId, stepPrompt, responseText } = exports
 const step = (id, prompt) => ({ id, step_order: Number(id), user_prompt: prompt, system_prompt: 'Be funny', llm_model_id: null })
+
+test('model settings accept IDs and resource names but reject pasted environment assignments', () => {
+    assert.equal(geminiModelId(' gemini-2.5-flash '), 'gemini-2.5-flash')
+    assert.equal(geminiModelId('models/gemini-2.5-flash'), 'gemini-2.5-flash')
+    for (const value of ['GEMINI_MODEL=gemini-2.5-flash', '"gemini-2.5-flash"', '', '../other']) {
+        assert.throws(() => geminiModelId(value), /Invalid Gemini model setting/)
+    }
+})
 
 test('each step receives the preceding result and only the first receives the image', async () => {
     const calls = [], snapshots = []

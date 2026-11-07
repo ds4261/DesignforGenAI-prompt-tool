@@ -1,6 +1,14 @@
 export type Step = { id: string; step_order: number; system_prompt: string | null; user_prompt: string; llm_model_id: string | null }
 export type Output = { step_id: string; model: string; prompt: string; system_prompt: string; text: string }
 
+export function geminiModelId(value: string) {
+    const model = value.trim().replace(/^models\//, '')
+    if (!/^[a-zA-Z0-9][a-zA-Z0-9._-]*$/.test(model)) {
+        throw new Error('Invalid Gemini model setting. Enter only the model ID in GEMINI_MODEL, without quotes or GEMINI_MODEL=, then redeploy.')
+    }
+    return model
+}
+
 export function stepPrompt(template: string, input: string, previous: string) {
     const expanded = template.replace(/\{\{(input|previous)\}\}/g, (_, key) => key === 'input' ? input : previous)
     return template.includes('{{previous}}') ? expanded : `${expanded}\n\nInput from previous step:\n${previous}`

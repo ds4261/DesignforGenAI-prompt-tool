@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { requireAdmin } from '@/utils/supabase/admin'
-import { executeChain, responseText, type Output, type Step } from '@/utils/chains/runner'
+import { executeChain, geminiModelId, responseText, type Output, type Step } from '@/utils/chains/runner'
 
 export type ActionState = { error?: string; success?: string; id?: string }
 const operations = ['create_chain', 'update_chain', 'delete_chain', 'create_step', 'update_step', 'delete_step', 'move_step']
@@ -54,7 +54,7 @@ export async function runChain(_state: ActionState, form: FormData): Promise<Act
     const deadline = Date.now() + 240_000
     try {
         await executeChain(steps, input, imageUrl,
-            step => step.llm_model_id ? models.get(step.llm_model_id)!.name : process.env.GEMINI_MODEL!,
+            step => geminiModelId(step.llm_model_id ? models.get(step.llm_model_id)!.name : process.env.GEMINI_MODEL!),
             async (model, instructions, prompt, image) => {
                 const remaining = deadline - Date.now()
                 if (remaining <= 0) throw new Error('Run timed out. Try a shorter chain.')
@@ -67,7 +67,8 @@ export async function runChain(_state: ActionState, form: FormData): Promise<Act
                         contents: [{ role: 'user', parts: [{ text: prompt }, ...(image ? [{ fileData: { fileUri: image } }] : [])] }],
                     }),
                 })
-                if (!response.ok) throw new Error(`Model request failed (${response.status}). Check model access, API credits, and image URL.`)
+                if (response.status === 404) throw new Error(`Gemini model "${model}" was not found. Check GEMINI_MODEL in Vercel's Production environment and redeploy. If this step selects a specific model, check its model ID instead.`)
+                if (!response.ok) throw new Error(`Gemini request failed (${response.status}). Check model access, API quota, and image URL.`)
                 return responseText(await response.json())
             }, async outputs => {
                 savedOutputs = outputs
